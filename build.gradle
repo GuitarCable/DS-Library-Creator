@@ -1,0 +1,23 @@
+plugins {
+    id 'java' // Applies the Java plugin
+}
+
+repositories {
+    mavenCentral() // Declares Maven Central as a repository for dependencies
+}
+
+dependencies {
+    // Declares a dependency for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21 // Sets the source compatibility to Java 11
+    targetCompatibility = JavaVersion.VERSION_21 // Sets the target compatibility to Java 11
+}
+
+jar {
+    archiveBaseName = 'ds-library-creator' // Sets the base name of the generated JAR file
+    archiveVersion = '1.0.0' // Sets the version of the generated JAR file
+}
