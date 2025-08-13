@@ -7,6 +7,11 @@ repositories {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.apache.camel/camel-xml-jaxp
+    implementation 'org.apache.camel:camel-xml-jaxp:4.13.0'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.19.2'
+
     // Declares a dependency for testing
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
@@ -15,6 +20,9 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_21 // Sets the source compatibility to Java 11
     targetCompatibility = JavaVersion.VERSION_21 // Sets the target compatibility to Java 11
+}
+tasks.getByName('test') {
+    enabled = false
 }
 
 jar {

@@ -3,12 +3,55 @@
  */
 package org.example;
 
+import org.example.dspreset.DSPreset;
+import org.example.dspreset.DSPresetModel;
+import org.example.dspreset.components.groups.Groups;
+import org.example.dspreset.components.groups.group.Group;
+import org.example.dspreset.components.groups.group.sample.Sample;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+    static String presetFilePath = "sandbox/output/";
+    static String presetName = "test";
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        DSPresetModel model = new DSPresetModel.Builder()
+                .groups(new Groups.Builder().groups(getGroups()).build())
+                .build();
+        DSPreset preset = new DSPreset(model);
+
+        writePreset(preset);
+    }
+
+    private static ArrayList<Group> getGroups() {
+        ArrayList<Group> groups = new ArrayList<>();
+        groups.add(new Group.Builder().samples(getSamples()).build());
+        return groups;
+    }
+
+    private static ArrayList<Sample> getSamples() {
+        ArrayList<Sample> samples = new ArrayList<>();
+        samples.add(new Sample.Builder().path("E Piano.wav").root(60).build());
+        return samples;
+    }
+
+    private static void writePreset(DSPreset preset) {
+        if(Files.notExists(Path.of(presetFilePath))) {
+            try {
+                Files.createDirectory(Path.of(presetFilePath));
+            } catch (Exception e) {
+                throw new IllegalStateException("failed to create dir: " + presetFilePath);
+            }
+        }
+
+        try {
+            Files.write(Path.of(presetFilePath + presetName + ".dspreset"), preset.exportPresetToString().getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException("failed to write to path: " + presetFilePath + presetName, e);
+        }
     }
 }
